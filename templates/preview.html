@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Essay Outline Preview</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.2/FileSaver.min.js"></script>
+    <script src="/Users/ningning/Desktop/pythonProject1/html-docx-js-master/dist/html-docx.js"></script>
+<meta charset="UTF-8">
+
+
+</head>
+
+<body>
+    <h2>Essay Topic: {{ topic }}</h2>
+    <h3>Outline:</h3>
+    <p>INTRODUCTION</p>
+    {% for main_body in main_bodies %}
+        <p>MAINBODY {{ loop.index }}: {{ main_body.topic }}</p>
+        {% for aspect in main_body.aspects %}
+            <p>Point {{ loop.index }}: {{ aspect.aspect }} - Support: {{ aspect.support }} - What else: {{ aspect.what_else }}</p> </p>
+        {% endfor %}
+    {% endfor %}
+    <p>CONCLUSION</p>
+        <!-- 在 preview.html 文件中 -->
+
+    <button onclick="downloadPDF()">Download as PDF (English Only)</button>
+        <script>
+            function downloadPDF() {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+
+                // Replace 'content' with the id or class of your preview content container
+                doc.text(document.body.innerText, 10, 10);
+                doc.save('Outline.pdf');
+            }
+        </script>
+                <button onclick="downloadAsWord()">Download as TXT (Chinese & English)</button>
+
+                <script>
+                    function downloadAsWord() {
+                        var content = document.body; // 获取整个页面内容
+                        var blob = new Blob([content.innerText], { type: 'text/plain;charset=utf-8' });
+                        saveAs(blob, 'Outline.txt');
+}
+
+                </script>
+
+</body>
+</html>

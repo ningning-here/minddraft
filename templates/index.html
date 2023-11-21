@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Ning's ESL Toolkit: MindScribe</title>
+    <style>
+        body, html {
+    height: 100%;
+    margin: 20px;
+}
+
+.content {
+    min-height: 100%;
+    /* 用于将 footer 推到页面底部 */
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+         select {
+            width: 30px;  /* 调整宽度 */
+            height: 30px;  /* 调整高度 */
+            /* 可以添加其他样式，例如 padding, font-size 等 */
+        }
+         select, option {
+            font-size: 16px; /* 设置字体大小 */
+             text-align: center;
+        }
+         input[type="text"] {
+            width: 300px; /* 填空条的宽度 */
+             height: 30px;  /* 调整高度 */
+            /* 可以添加其他样式，例如 padding, border 等 */
+        }
+    .aspect-support-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    .aspect-support-group label,
+    .aspect-support-group input {
+        margin-right: 10px;
+
+    }
+
+h1 {
+            color: black;
+            text-align: left;
+        }
+
+        footer p {
+            text-align: center;
+            padding: 20px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            color: #636161;
+            font-size: 16px;
+
+        }
+        body {
+            font-size: 18px; /* 调整字体大小为18像素 */
+            background-color: #dbe192; /* 浅蓝色背景 */
+        }
+
+</style>
+
+</head>
+<body>
+    <form action="/preview" method="post">
+        <h1>MindScribe: Your personal idea weaver</h1>
+        <label for="topic">Hi! What would you like to write about today?</label>
+        <input type="text" id="topic" name="topic" maxlength="50"><br><br>
+
+        <label for="num_paragraphs">How many main body paragraphs are you considering?</label>
+        <select id="num_paragraphs" name="num_paragraphs">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select><br><br>
+
+        <!-- Dynamically generate main body inputs -->
+        <div id="main_bodies">
+        </div>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        document.getElementById('num_paragraphs').addEventListener('change', function() {
+            var numParagraphs = this.value;
+            var mainBodiesDiv = document.getElementById('main_bodies');
+            mainBodiesDiv.innerHTML = '';
+
+            for (var i = 1; i <= numParagraphs; i++) {
+                mainBodiesDiv.innerHTML +=
+                `<label for="main_body_${i}_topic">What is main body ${i} about?</label>
+                 <input type="text" id="main_body_${i}_topic" name="main_body_${i}_topic" maxlength="50"><br><br>
+                 <label for="main_body_${i}_num_aspects">How many aspects to cover?</label>
+                 <select id="main_body_${i}_num_aspects" name="main_body_${i}_num_aspects" onchange="generateAspects(${i}, this.value)">
+                     <option value="1">1</option>
+                     <option value="2">2</option>
+                     <option value="3">3</option>
+                     <option value="4">4</option>
+                     <option value="5">5</option>
+                 </select><br><br>
+                 <div id="main_body_${i}_aspects"></div>`;
+            }
+        });
+
+        function generateAspects(bodyIndex, numAspects) {
+            var aspectsDiv = document.getElementById(`main_body_${bodyIndex}_aspects`);
+            aspectsDiv.innerHTML = '';
+
+            for (var j = 1; j <= numAspects; j++) {
+                aspectsDiv.innerHTML += `<div class="aspect-support-group">
+             <label for="main_body_${bodyIndex}_aspect_${j}">Key words of point ${j}</label>
+             <input type="text" id="main_body_${bodyIndex}_aspect_${j}" name="main_body_${bodyIndex}_aspect_${j}" maxlength="50">
+             <label for="main_body_${bodyIndex}_support_${j}">How to support point ${j}?</label>
+             <input type="text" id="main_body_${bodyIndex}_support_${j}" name="main_body_${bodyIndex}_support_${j}" maxlength="50">
+             <label for="main_body_${bodyIndex}_else_${j}">What else?</label>
+             <input type="text" id="main_body_${bodyIndex}_else_${j}" name="main_body_${bodyIndex}_else_${j}" maxlength="50">
+
+         </div>`;
+            }
+        }
+    </script>
+    <!-- 页面的其他内容 -->
+
+    <footer>
+        <p>© 2023 Ning Ning   |   Email：ningning_sxau@qq.com</p>
+    </footer>
+</body>
+</html>
+
+</body>
+</html>
